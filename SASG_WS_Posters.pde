@@ -56,7 +56,7 @@ public int newWidth, newHeight;
 
 public PApplet that = this;
 
-public String folderName = "001_sound";
+public String folderName = "002_choreography";
 
 boolean libInited = false;
 
