@@ -101,7 +101,8 @@ var s = function (p) {
     p.text("Bring percussive material like metal dishes and rice", 100, 500);
 
     // p.text("Robotics soundscape using motors and solenoids, etc.", 100, 950);
-    p.text("13:00 - 16:00 August 4 (Sat), 2018", 100, 900);
+    p.text("August 4 (Sat), 2018", 100, 850);
+    p.text("13:00 - 16:00", 100, 900);
     p.text("More information: http://naotohieda.com/sasg/w001", 100, 950);
     p.text("Free reservation at mail@naotohieda.com", 100, 1100);
 
