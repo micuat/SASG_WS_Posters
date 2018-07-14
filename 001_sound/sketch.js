@@ -32,7 +32,8 @@ var s = function (p) {
       }
     }
 
-    let theta = p.frameCount / 30.0 * 1 * Math.PI;
+    let theta = p.frameCount / 30.0 * 0.5 * Math.PI;
+    p.noFill();
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
         let l = 100 / 2.0;
@@ -40,16 +41,27 @@ var s = function (p) {
         p.pushMatrix();
         p.translate((j + 0) * l, (i + 0) * l);
 
+        p.line(0, -hl, 0, hl);
+
+        let isWave = false;
+        let hlsint = Math.sin(theta) * hl;
         for (let k in currents) {
           if (i * n + j == currents[k]) {
-            hl *= 1.0 - p.pow(1.0 - p.map(Math.cos(theta), -1, 1, 0, 1), 4.0);
-            let dx = l*0.5-hl;
-            if(dx <= 1) dx = 0;
-            p.translate(dx, 0);
+            p.beginShape();
+            for (let x = -hl; x < hl; x+=2) {
+              let y = Math.sin(x * Math.PI * 0.1 + theta * 10.0);
+              y *= hlsint * Math.cos(x / hl * Math.PI / 2.0);
+              p.vertex(x, y);
+            }
+            p.vertex(hl, 0);
+            p.endShape();
+            isWave = true;
+            break;
           }
         }
-        p.line(-hl, 0, hl, 0);
-        p.line(0, -hl, 0, hl);
+        if(isWave == false) {
+          p.line(-hl, 0, hl, 0);
+        }
         p.popMatrix();
       }
     }
