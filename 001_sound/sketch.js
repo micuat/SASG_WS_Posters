@@ -41,7 +41,6 @@ var s = function (p) {
         p.pushMatrix();
         p.translate((j + 0) * l, (i + 0) * l);
 
-        p.line(0, -hl, 0, hl);
 
         let isWave = false;
         let hlsint = Math.sin(theta) * hl;
@@ -49,18 +48,23 @@ var s = function (p) {
           if (i * n + j == currents[k]) {
             p.beginShape();
             for (let x = -hl; x < hl; x+=2) {
-              let y = Math.sin(x * Math.PI * 0.1 + theta * 10.0);
+              let y;
+              if(k > 3) y = Math.sin(x * Math.PI * 0.1 + theta * 10.0);
+              else y = p.random(-1, 1);
               y *= hlsint * Math.cos(x / hl * Math.PI / 2.0);
               p.vertex(x, y);
             }
             p.vertex(hl, 0);
             p.endShape();
+            p.line(0, Math.abs(Math.sin(theta)) * hl, 0, hl);
+            p.line(0, Math.abs(Math.sin(theta)) * -hl, 0, -hl);
             isWave = true;
             break;
           }
         }
         if(isWave == false) {
           p.line(-hl, 0, hl, 0);
+          p.line(0, -hl, 0, hl);
         }
         p.popMatrix();
       }
@@ -88,13 +92,14 @@ var s = function (p) {
       p.rotate(-Math.PI / 3);
       p.translate(0, 30);
       p.stroke(255, 50);
+      p.strokeWeight(2);
       let grp = rfontc.toGroup('SASG Workshop 001');
       let rpoints = grp.getPoints();
       for (let i = 0; i < rpoints.length - 1; i++) {
         let rot = Math.pow(Math.sin(t * Math.PI * 0.5 - i * 0.001) * 0.5 + 0.5, 8.0) * Math.PI * 0.125;
         // p.point(rpoints[i].x + 100, rpoints[i].y + 100);
         // let rad = p.dist(0, 0, rpoints[i].x, rpoints[i].y);
-        p.line(rpoints[i].x-3, rpoints[i].y,
+        p.line(rpoints[i].x, rpoints[i].y + 5,
           rpoints[i].x * Math.cos(rot) + rpoints[i].y * -Math.sin(rot),
           rpoints[i].x * Math.sin(rot) + rpoints[i].y * Math.cos(rot)
         );
@@ -102,6 +107,7 @@ var s = function (p) {
       p.pop();
     }
 
+    return;
     p.text("SASG Workshop 001", 100, 100);
     p.textFont(font, 30);
     p.text("Robotics and Physicality of Sound", 100, 150);
